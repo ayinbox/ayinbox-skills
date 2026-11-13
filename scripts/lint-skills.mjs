@@ -8,7 +8,7 @@ const skillsDir = join(root, "skills");
 const allowedKeys = new Set(["name", "description", "license", "compatibility", "metadata", "allowed-tools"]);
 const namePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const banned = [
-  [/—/, "em dash"],
+  [/\u2014/, "em dash"],
   [/self-host/i, "self-hosting mention"],
   [/ayinboxctl/, "operator CLI mention"],
 ];
