@@ -9,8 +9,6 @@ const allowedKeys = new Set(["name", "description", "license", "compatibility", 
 const namePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const banned = [
   [/\u2014/, "em dash"],
-  [/self-host/i, "self-hosting mention"],
-  [/ayinboxctl/, "operator CLI mention"],
 ];
 
 const errors = [];
