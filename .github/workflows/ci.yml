@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Lint every SKILL.md
+        run: node scripts/lint-skills.mjs
+      - name: Check the skills CLI discovers every skill
+        run: |
+          expected=$(ls -d skills/*/ | wc -l | tr -d ' ')
+          npx --yes skills@1.8.1 add . --list < /dev/null > list.txt 2>&1 || { cat list.txt; exit 1; }
+          found=$(sed 's/\x1b\[[0-9;]*m//g' list.txt | grep -oE 'Found [0-9]+ skills' | grep -oE '[0-9]+')
+          echo "expected $expected, found $found"
+          test "$found" = "$expected"
